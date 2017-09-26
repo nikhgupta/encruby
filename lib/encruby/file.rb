@@ -29,7 +29,7 @@ module Encruby
       path.chown(@path.stat.uid, @path.stat.gid)
     end
 
-    def encrypt(save: true)
+    def encrypt
       content   = extract_meta(@path.read)
       data      = content[:shebang].to_s + content[:code]
       response  = @crypto.encrypt(data)
@@ -37,24 +37,24 @@ module Encruby
       shebang   = "#!#{Encruby.bin_path}\n" if content[:shebang]
 
       content = "#{shebang}#{content[:comments]}\n__END__\n#{encrypted}"
-      save_converted(type: :encrypt, content: content) if save
+      save_converted(type: :encrypt, content: content) if @options[:save]
       { signature: hmac, content: content }
     end
 
-    def decrypt(save: true)
+    def decrypt
       content   = extract_meta(@path.read)
       unless content[:code] && data = content[:code].split(/^__END__\s*\n/)[1]
         raise Error, "No encrypted content found. You sure this file has been encrypted?"
       end
 
-      hash      = @options[:verify_hash]
+      hash      = @options[:signature] if @options[:verify]
       response  = @crypto.decrypt(data, hash: hash)
       decrypted, hmac = response[:content], response[:signature]
       shebang   = decrypted.lines[0] if decrypted.lines[0] =~ /^#\!/
       decrypted = decrypted.lines[1..-1].join if shebang
 
       content   = "#{shebang}#{content[:comments]}#{decrypted}"
-      save_converted(type: :decrypt, content: content) if save
+      save_converted(type: :decrypt, content: content) if @options[:save]
       { signature: hmac, content: content }
     end
 

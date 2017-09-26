@@ -5,27 +5,31 @@ module Encruby
     method_option :identity_file, aliases: "-i", type: :string, required: true
     method_option :replace, aliases: "-r", type: :boolean, default: false
     def encrypt(path)
-      _, digest = Encruby::File.new(path, options).encrypt
+      opts = options.dup.merge(save: true)
+      key  = opts.delete(:identity_file)
+      response = Encruby::File.new(path, key, opts).encrypt
       say_status "Success", "Done!", :green
-      say_status "Digest", digest, :cyan
+      say_status "Digest", response[:signature], :cyan
     end
 
     desc "decrypt FILE", "Decrypt a ruby source code."
     method_option :identity_file, aliases: "-i", type: :string, required: true
-    method_option :verify_hash, aliases: "-h", type: :string, default: nil
+    method_option :verify, type: :boolean, default: true
+    method_option :signature, aliases: "-s", type: :string, default: nil
     method_option :replace, aliases: "-r", type: :boolean, default: false
     def decrypt(path)
-      unless hash = options[:verify_hash]
-        hash = "Please, provide SHA256 hash for this file! [Enter to skip verification]:"
+      hash = options[:signaturee]
+      if !hash && options[:verify]
+        hash = "Please, provide signature for this file! [Enter to skip verification]:"
         hash = ask(hash).strip
         hash = nil if hash.empty?
       end
 
-      opts = options.dup.merge(verify_hash: hash)
+      opts = options.dup.merge(signature: hash, save: true)
       key  = opts.delete(:identity_file)
-      _, digest = Encruby::File.new(path, key, opts).decrypt
+      response = Encruby::File.new(path, key, opts).decrypt
       say_status "Success", "Done!", :green
-      say_status "Digest", digest, :cyan
+      say_status "Digest", response[:signature], :cyan
     end
 
     # def run

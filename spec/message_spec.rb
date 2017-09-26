@@ -2,6 +2,8 @@ RSpec.describe Encruby::Message do
   let(:message){ "some message that needs encryption" }
   let(:rsa_pem){ rsa_path(public: true) }
   let(:rsa_pvt){ rsa_path(public: false) }
+  let(:rsa_pem_with_password){ rsa_path(public: true, password: true) }
+  let(:rsa_pvt_with_password){ rsa_path(public: false, password: true) }
   let(:crypto) { described_class.new(rsa_pem) }
 
   it "defines AES mode to use" do

@@ -51,7 +51,7 @@ RSpec.describe Encruby::File do
   context "#decrypt" do
     it "decrypts an encrypted encruby file" do
       encrypt_fixture(:complex)
-      response = file_crypt("complex.enc.rb").decrypt(save: false)
+      response = file_crypt("complex.enc.rb").decrypt
       expect(fixture_file('complex.rb').read).to eq response[:content]
     end
 
@@ -94,8 +94,12 @@ RSpec.describe Encruby::File do
 
   it "replaces original file in place, if required" do
     path = fixture_file("replaceable")
-    code = path.read
 
+    if path.readlines[0].include?("encruby")
+      file_crypt("replaceable", replace: true).decrypt
+    end
+
+    code = path.read
     file_crypt("replaceable", replace: true).encrypt
     expect(path.read).not_to eq code
 

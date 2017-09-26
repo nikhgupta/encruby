@@ -7,10 +7,9 @@ require "encruby/cli"
 begin
   Encruby::CLI.start ARGV
 rescue Encruby::Error => e
-  Thor::Shell::Color.new.say_status("ERROR", e.message, :red)
+  STDERR.puts "\x1b[31m[ERROR]: #{e.message}\x1b[0m"
   exit 1
 rescue StandardError => e
-  Thor::Shell::Color.new.say_status("FATAL", e.message, :red)
-  Thor::Shell::Color.new.say_status("FATAL", e.backtrace.join("\n"), :yellow)
+  STDERR.puts "\x1b[31m[FATAL]: #{e.message}\x1b[0m"
   exit 2
 end
