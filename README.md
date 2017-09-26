@@ -5,6 +5,8 @@
 - [x] Run tests on Travis
 - [ ] Update README
 - [ ] Push to Rubygems
+- [ ] Add status icons
+- [ ] Add command to share encrypted source as a Gist
 
 Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/encruby`. To experiment with that code, run `bin/console` for an interactive prompt.
 
