@@ -71,7 +71,7 @@ PLATFORMS
 
 DEPENDENCIES
   aruba!
-  bundler (~> 1.16.a)
+  bundler (~> 1.15.4)
   encruby!
   pry (~> 0)
   rake (~> 10.0)
@@ -79,4 +79,4 @@ DEPENDENCIES
   simplecov
 
 BUNDLED WITH
-   1.16.0.pre.2
+   1.15.4
