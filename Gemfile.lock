@@ -73,7 +73,7 @@ DEPENDENCIES
   aruba!
   bundler (~> 1.16.a)
   encruby!
-  pry
+  pry (~> 0)
   rake (~> 10.0)
   rspec (~> 3.0)
   simplecov

@@ -27,6 +27,7 @@ module Encruby
       path.open("w"){|f| f.puts content}
       path.chmod(@path.stat.mode)
       path.chown(@path.stat.uid, @path.stat.gid)
+      path
     end
 
     def encrypt
@@ -34,11 +35,11 @@ module Encruby
       data      = content[:shebang].to_s + content[:code]
       response  = @crypto.encrypt(data)
       encrypted, hmac = response[:content], response[:signature]
-      shebang   = "#!#{Encruby.bin_path}\n" if content[:shebang]
+      shebang   = "#{Encruby.shebang}\n" if content[:shebang]
 
       content = "#{shebang}#{content[:comments]}\n__END__\n#{encrypted}"
-      save_converted(type: :encrypt, content: content) if @options[:save]
-      { signature: hmac, content: content }
+      path = save_converted(type: :encrypt, content: content) if @options[:save]
+      { signature: hmac, content: content, path: path }
     end
 
     def decrypt
@@ -54,8 +55,8 @@ module Encruby
       decrypted = decrypted.lines[1..-1].join if shebang
 
       content   = "#{shebang}#{content[:comments]}#{decrypted}"
-      save_converted(type: :decrypt, content: content) if @options[:save]
-      { signature: hmac, content: content }
+      path = save_converted(type: :decrypt, content: content) if @options[:save]
+      { signature: hmac, content: content, path: path }
     end
 
     private

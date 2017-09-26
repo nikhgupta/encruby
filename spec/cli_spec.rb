@@ -109,3 +109,21 @@ RSpec.describe 'Encruby::CLI.decrypt', :slow, type: :aruba do
     expect(last_command_started.stderr).to match(/private key needed/)
   end
 end
+RSpec.describe "Encruby::CLI.exec", :slow, type: :aruba do
+  it "encrypted files can be run from CLI" do
+    encrypt_fixture :complex
+    key  = fixture_file("keys", "passwordless")
+    file = fixture_file("complex.enc.rb")
+
+    run_command "encruby exec #{file} -i #{key}"
+    type("\n")
+    expect(last_command_started).to be_successfully_executed
+
+    expected = <<-EXPECTED.gsub(/^\s{6}/, '')
+      Hello world!
+      a"some data 'that has quotes'!" "whatever \\"\\" else" and '"more"'
+    EXPECTED
+
+    expect(last_command_started.stdout).to include expected.strip
+  end
+end

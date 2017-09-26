@@ -17,7 +17,7 @@ RSpec.describe Encruby::File do
         .and be_encrypted_version_of(infile)
         .with_shebang.with_comments(1,3)
 
-      expect(outfile.readlines[0]).to eq "#!#{Encruby.bin_path}\n"
+      expect(outfile.readlines[0]).to eq Encruby.shebang + "\n"
     end
 
     it "does not prepend shebang when not present in original code" do

@@ -9,7 +9,7 @@ begin
 rescue Encruby::Error => e
   STDERR.puts "\x1b[31m[ERROR]: #{e.message}\x1b[0m"
   exit 1
-rescue StandardError => e
-  STDERR.puts "\x1b[31m[FATAL]: #{e.message}\x1b[0m"
-  exit 2
+# rescue StandardError => e
+#   STDERR.puts "\x1b[31m[FATAL]: #{e.message}\x1b[0m"
+#   exit 2
 end

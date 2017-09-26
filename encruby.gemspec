@@ -9,8 +9,8 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Nikhil Gupta"]
   spec.email         = ["me@nikhgupta.com"]
 
-  spec.summary       = %q{Encrypt ruby code files and still allow them to run}
-  spec.description   = %q{Encrypt ruby code files and still allow them to run}
+  spec.summary       = %q{Encrypt/decrypt ruby source code files}
+  spec.description   = %q{Encrypt ruby source code files and still be able to run them.}
   spec.homepage      = "https://github.com/nikhgupta/encruby"
   spec.license       = "MIT"
 
@@ -21,7 +21,7 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
-  spec.add_development_dependency "pry"
+  spec.add_development_dependency "pry", "~> 0"
   spec.add_development_dependency "bundler", "~> 1.16.a"
   spec.add_development_dependency "rake", "~> 10.0"
   spec.add_development_dependency "rspec", "~> 3.0"

@@ -22,7 +22,7 @@ module RSpec::Matchers
 
     def matches?(outfile)
       encrypted = ::File.read(outfile.to_s)
-      expect(encrypted.lines[0]).to match(/^#\!.*?encruby$/) if @shebang
+      expect(encrypted.lines[0]).to match(/^#\!.*?encruby exec --verify$/) if @shebang
 
       if @comments
         expect(encrypted.lines[@comments]).to eq @input.lines[@comments]

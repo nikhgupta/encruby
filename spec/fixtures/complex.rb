@@ -14,11 +14,16 @@
 #
          #   
 
-   puts "hello"
+   print "Hello"
 
 # This comment will be encrypted by Encruby.
 
-puts "world!"
+print " world!"
+
+data1 = %q{"some data 'that has quotes'!"}
+data2 = ' "whatever \"\" else"'
+data3 = " and '\"more\"'"
+print "\n#{:a}#{data1}#{data2}#{data3}"
 
    #
    # so will this be.

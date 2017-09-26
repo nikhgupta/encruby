@@ -1,4 +1,5 @@
 require "base64"
+require "open3"
 require "openssl"
 require "pathname"
 
@@ -19,5 +20,9 @@ module Encruby
       path if path.executable?
     end.compact
     exes.any? ? exes.min : Encruby.root.join("exe", "encruby")
+  end
+
+  def self.shebang
+    "#!#{bin_path} exec --verify"
   end
 end
